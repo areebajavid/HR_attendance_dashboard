@@ -1,0 +1,17 @@
+### Register a new user
+POST http://localhost:3001/api/register
+Content-Type: application/json
+
+{
+    "username": "hr_manager",
+    "password": "securepassword123",
+    "role": "HR"
+}
+### Login as a user
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "hr_manager",
+    "password": "securepassword123"
+}

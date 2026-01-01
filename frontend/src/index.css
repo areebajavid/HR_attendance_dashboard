@@ -1,0 +1,127 @@
+/* --- GLOBAL STYLES & FONTS --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #4A55A2;
+  --light-gray: #f8f9fa;
+  --border-color: #dee2e6;
+  --text-color: #495057;
+  --header-text-color: #6c757d;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--light-gray);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main.container {
+  max-width: 1200px;
+  padding: 2rem 1.5rem;
+}
+
+/* --- NAVIGATION BAR --- */
+nav {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+nav strong { color: white; }
+
+nav button.secondary {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  padding: 0.4rem 1.2rem;
+  transition: all 0.2s ease;
+}
+
+nav button.secondary:hover {
+  background-color: white;
+  color: var(--primary-color);
+}
+
+
+/* --- THIS IS THE KEY FIX --- */
+/* This makes the container scrollable, not the whole page */
+.table-container {
+  overflow-x: auto;
+}
+
+
+/* --- TABLE STYLES --- */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(27, 31, 35, 0.08);
+  font-size: 0.9rem;
+}
+
+/* This keeps header text on one line for a clean look */
+th {
+  white-space: nowrap;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-color);
+}
+
+thead th {
+  background-color: var(--light-gray);
+  color: var(--header-text-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+thead tr th:first-child { border-top-left-radius: 8px; }
+thead tr th:last-child { border-top-right-radius: 8px; }
+
+tbody tr:hover { background-color: #f1f8ff; }
+
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:last-child td:first-child { border-bottom-left-radius: 8px; }
+tbody tr:last-child td:last-child { border-bottom-right-radius: 8px; }
+
+
+/* --- FORM INPUTS AND BUTTONS IN TABLE --- */
+.mark-leave-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mark-leave-controls input,
+.mark-leave-controls select,
+.mark-leave-controls button {
+  width: 100%;
+  min-width: 170px; /* Give the controls enough space */
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.mark-leave-controls button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 8px 20px;
+}

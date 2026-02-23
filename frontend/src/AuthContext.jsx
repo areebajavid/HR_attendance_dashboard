@@ -1,9 +1,10 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 const AuthContext = createContext(null);
+const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(() => localStorage.getItem('token'));
 
   useEffect(() => {
     if (token) {
@@ -15,35 +16,42 @@ export function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
-        method: 'POST',
+      const res = await fetch(`${API}/api/login`, {
+        method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body:    JSON.stringify({ username, password }),
       });
-
-      if (!response.ok) {
-        // Log the error response from the server for better debugging
-        const errorData = await response.json();
-        console.error('Login failed:', errorData.error);
-        return false;
-      }
-
-      const data = await response.json();
+      if (!res.ok) return false;
+      const data = await res.json();
       setToken(data.token);
       return true;
-    } catch (error) {
-      console.error('A network error occurred during login:', error);
+    } catch {
       return false;
     }
   };
 
-  const logout = () => {
-    setToken(null);
-  };
+  const logout = useCallback(() => setToken(null), []);
 
-  const value = { token, login, logout };
+  /* Helper: authenticated fetch — use this instead of raw fetch in pages */
+  const authFetch = useCallback(
+    (url, options = {}) => {
+      return fetch(url, {
+        ...options,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(options.headers || {}),
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
+    [token]
+  );
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ token, login, logout, authFetch }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {

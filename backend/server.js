@@ -42,13 +42,7 @@ function authenticateToken(req, res, next) {
 }
 
 // ── Public Routes ──────────────────────────────────────────────
-app.get('/api/test-auth', async (req, res) => {
-  const [users] = await db.query('SELECT * FROM users WHERE username = ?', ['hr_manager']);
-  const user = users[0];
-  const bcrypt = require('bcrypt');
-  const match = await bcrypt.compare('Hr@1234', user.password);
-  res.json({ passwordInDB: user.password, match });
-});
+
 app.post('/api/login', async (req, res) => {
   try {
     const { username, password } = req.body;

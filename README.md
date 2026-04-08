@@ -80,7 +80,10 @@ cd backend && npm run dev
 
 # Frontend (port 5173)  
 cd frontend && npm run dev
+
+
 📁 Project Structure
+
 HR_attendance_dashboard/
 │
 ├── backend/                 # Express.js API server
@@ -100,14 +103,20 @@ HR_attendance_dashboard/
 ├── nixpacks.toml           # Railway deployment config
 ├── package.json            # Root workspace config
 └── README.md               # Documentation
+
+
 🔐 Security Features
+
 Feature	Implementation
 Multi-Factor Auth	TOTP-based 2FA
 Session Management	JWT with refresh tokens
 Rate Limiting	express-rate-limit
 Input Validation	Joi/Zod schemas
 Secure Headers	Helmet.js
+
+
 📊 API Endpoints
+
 // Authentication
 POST   /api/auth/login      // User login with MFA
 POST   /api/auth/verify      // Verify OTP
@@ -121,7 +130,10 @@ PUT    /api/attendance/checkout/:id
 // Employees
 GET    /api/employees        // List all employees
 GET    /api/employees/:id    // Get employee details
+
+
 📈 Future Roadmap
+
 Facial recognition check-in
 
 Mobile app (React Native)

@@ -21,8 +21,9 @@ const db = mysql.createPool({
   port:            Number(process.env.DB_PORT) || 3306,
   connectionLimit: 10,
   waitForConnections: true,
+  enableKeepAlive:    true,
+  keepAliveInitialDelay: 0,
 });
-
 db.getConnection()
   .then(c => { console.log('✅ Database connected.'); c.release(); })
   .catch(err => console.error('❌ DB connection failed:', err.message));

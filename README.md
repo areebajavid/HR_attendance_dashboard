@@ -1,152 +1,93 @@
-<div align="center">
-  
 # 👥 HR Attendance Dashboard
 
-### *Employee Leave Management System with JWT Authentication*
+> A full-stack employee leave management system with JWT authentication, role-based access, and comprehensive reporting.
 
-[![Node.js](https://img.shields.io/badge/Node.js-Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-[![React](https://img.shields.io/badge/React-Router-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
-[![MySQL](https://img.shields.io/badge/MySQL-2-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com/)
-[![JWT](https://img.shields.io/badge/JWT-Auth-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
-[![Railway](https://img.shields.io/badge/Railway-Deployed-0B0D0E?style=for-the-badge&logo=railway&logoColor=white)](https://railway.app/)
-
-</div>
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=flat&logo=jsonwebtokens&logoColor=white)
+![Railway](https://img.shields.io/badge/Railway-0B0D0E?style=flat&logo=railway&logoColor=white)
 
 ---
 
-## 📌 Project Overview
+## ✨ Features
 
-> **A full-stack employee leave management system with secure JWT authentication, role-based access, and comprehensive reporting.**
-
-This system allows HR teams to track employee leaves, manage balances, generate reports, and monitor daily attendance.
-
-### Core Capabilities:
-- 🔐 **JWT Authentication** - Secure login with 8-hour sessions
-- 👥 **Employee Management** - View all employees with details
-- 📅 **Leave Tracking** - Batch save, view by date, monthly reports
-- 📊 **Leave Balances** - Track 10+ leave types per employee
-- 📈 **Analytics** - Leave summary and trends
+- 🔐 **JWT Authentication** — Secure login with 8-hour sessions
+- 👥 **Employee Management** — View all employees with department and manager details
+- 📅 **Leave Tracking** — Batch save, view by date, and monthly reports
+- 📊 **Leave Balances** — Track 10+ leave types per employee
+- 📈 **Analytics** — Yearly summaries and leave trends
+- 🏢 **Daily Attendance** — Real-time attendance status with leave overlay
 
 ---
 
-## 🏗️ Architecture
+## 🛠️ Tech Stack
 
-┌─────────────────────────────────────────────────────────────────┐
-│ React Frontend (Vite) │
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│ │ Login │ │ Employee │ │ Leave │ │
-│ │ Page │ │ Table │ │ Balance │ │
-│ └─────────────┘ └─────────────┘ └─────────────┘ │
-│ │ │ │ │
-│ └───────────────┼───────────────┘ │
-│ │ │
-│ ProtectedRoute │
-│ (JWT Token Check) │
-└─────────────────────────┬───────────────────────────────────────┘
-│ HTTP /api/*
-▼
-┌─────────────────────────────────────────────────────────────────┐
-│ Express.js Backend │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ authenticateToken (JWT verification middleware) │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ┌──────────────────────┴──────────────────────────────────┐ │
-│ │ API Routes │ │
-│ ├─────────────────────────────────────────────────────────┤ │
-│ │ POST /api/login │ Login + JWT generation │ │
-│ │ GET /api/employees │ List all employees │ │
-│ │ POST /api/leaves/batch │ Batch save leaves │ │
-│ │ GET /api/leaves/by-date │ Leaves for specific date│ │
-│ │ GET /api/leaves/summary │ Yearly leave summary │ │
-│ │ GET /api/leave-balances │ Per-employee balances │ │
-│ │ GET /api/leaves/monthly-report │ Monthly report │ │
-│ │ GET /api/daily-attendance │ Today's attendance │ │
-│ │ DELETE /api/leaves/reset │ Delete all leaves │ │
-│ └─────────────────────────────────────────────────────────┘ │
-└─────────────────────────┬───────────────────────────────────────┘
-│
-▼
-┌─────────────────────────────────────────────────────────────────┐
-│ MySQL Database │
-│ ┌──────────────┐ ┌──────────────┐ │
-│ │ users │ │ employees │ │
-│ ├──────────────┤ ├──────────────┤ │
-│ │ id (PK) │ │ id (PK) │ │
-│ │ username │ │ ee_id │ │
-│ │ password │ │ employee_name│ │
-│ │ role │ │ department │ │
-│ └──────────────┘ │ reporting_manager│ │
-│ │ position_title│ │
-│ └───────┬──────┘ │
-│ │ │
-│ ┌───────▼──────┐ │
-│ │ leaves │ │
-│ ├──────────────┤ │
-│ │ id (PK) │ │
-│ │ employee_id(FK)│ │
-│ │ leave_date │ │
-│ │ leave_type │ │
-│ └──────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-
-
-
-## ✨ Features (What Actually Exists)
-
-### Authentication
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/login` | POST | Username/password login → returns JWT (8hr expiry) |
-
-### Employee Management
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/employees` | GET | Returns all employees (id, name, ee_id, department, manager, position) |
-
-### Leave Management
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/leaves/batch` | POST | Batch insert/update leaves (employee_id, leave_date, leave_type) |
-| `/api/leaves/by-date` | GET | Get all leaves for a specific date |
-| `/api/leaves/summary` | GET | Yearly leave type counts (current year) |
-| `/api/leave-balances` | GET | Per-employee leave balances for current year |
-| `/api/leaves/monthly-report` | GET | Detailed monthly leave report |
-| `/api/leaves/reset` | DELETE | Delete all leave records |
-
-### Attendance
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/daily-attendance` | GET | Today's attendance with leave status |
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React + Vite |
+| Backend | Node.js + Express |
+| Database | MySQL |
+| Auth | JWT + bcrypt |
+| Deployment | Railway |
 
 ---
 
-## 📁 Project Structure (Actual)
+## 📁 Project Structure
+
+```
 HR_attendance_dashboard/
-│
-├── backend/ # Backend source (separate folder)
-│ └── (backend files)
-│
-├── frontend/ # React + Vite frontend
-│ ├── src/
-│ │ ├── components/
-│ │ │ ├── LoginPage.jsx/.tsx
-│ │ │ ├── ProtectedRoute.jsx/.tsx
-│ │ │ ├── DashboardLayout.jsx/.tsx
-│ │ │ ├── EmployeeTablePage.jsx/.tsx
-│ │ │ ├── LeaveBalancePage.jsx/.tsx
-│ │ │ └── AnalyticsPage.jsx/.tsx
-│ │ └── App.jsx/.tsx
-│ └── (Vite config files)
-│
-├── server.js # Express backend entry point
-├── package.json # Backend dependencies
-├── package-lock.json
-├── nixpacks.toml # Railway deployment config
-└── README.md
+├── backend/                  # Backend source
+├── frontend/                 # React + Vite frontend
+│   └── src/
+│       └── components/
+│           ├── LoginPage.jsx
+│           ├── ProtectedRoute.jsx
+│           ├── DashboardLayout.jsx
+│           ├── EmployeeTablePage.jsx
+│           ├── LeaveBalancePage.jsx
+│           └── AnalyticsPage.jsx
+├── server.js                 # Express entry point
+├── nixpacks.toml             # Railway deployment config
+└── package.json
+```
 
-Database Schema
--- Users table for authentication
+---
+
+## 🔌 API Reference
+
+### Auth
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/login` | Login → returns JWT (8hr expiry) |
+
+### Employees
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/employees` | List all employees |
+| GET | `/api/daily-attendance` | Today's attendance with leave status |
+
+### Leaves
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/leaves/batch` | Batch insert/update leaves |
+| GET | `/api/leaves/by-date` | Leaves for a specific date |
+| GET | `/api/leaves/summary` | Yearly leave type counts |
+| GET | `/api/leaves/monthly-report` | Detailed monthly report |
+| GET | `/api/leave-balances` | Per-employee balances |
+| DELETE | `/api/leaves/reset` | Delete all leave records |
+
+---
+
+## 📋 Leave Types Supported
+
+`Earned Leave` · `Sick Leave` · `Work From Home` · `Comp Off` · `LWP` · `Half Day` · `Maternity` · `Paternity` · `Mandatory Holiday` · `Optional Holiday`
+
+---
+
+## 🗄️ Database Schema
+
+```sql
 CREATE TABLE users (
   id INT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(255) NOT NULL UNIQUE,
@@ -154,7 +95,6 @@ CREATE TABLE users (
   role VARCHAR(50) DEFAULT 'user'
 );
 
--- Employees table
 CREATE TABLE employees (
   id INT PRIMARY KEY AUTO_INCREMENT,
   ee_id VARCHAR(50) NOT NULL UNIQUE,
@@ -164,7 +104,6 @@ CREATE TABLE employees (
   position_title VARCHAR(255)
 );
 
--- Leaves table
 CREATE TABLE leaves (
   id INT PRIMARY KEY AUTO_INCREMENT,
   employee_id INT NOT NULL,
@@ -173,37 +112,71 @@ CREATE TABLE leaves (
   FOREIGN KEY (employee_id) REFERENCES employees(id),
   UNIQUE KEY unique_employee_date (employee_id, leave_date)
 );
+```
 
-🔧 Dependencies (From package.json)
-Package	Version	Purpose
-express	^4.18.2	Web framework
-mysql2	^3.14.4	MySQL database driver
-bcrypt	^6.0.0	Password hashing
-jsonwebtoken	^9.0.2	JWT generation/verification
-cors	^2.8.5	Cross-origin requests
-dotenv	^17.2.2	Environment variables
-nodemon	^3.1.10	Dev auto-reload
+---
 
+## 🚀 Run Locally
 
-📊 Leave Types Tracked
-From your code, these leave types are supported:
+### Prerequisites
+- Node.js v18+
+- MySQL database
 
-Leave Type	Code
-Earned Leave	Earned Leave - EL
-Sick Leave	Sick Leave - SL
-Work From Home	WFH
-Compensatory Off	Comp Off
-Leave Without Pay	LWP
-Half Day	(0.5) in leave_type
-Maternity Leave	Maternity
-Paternity Leave	Paternity
-Mandatory Holiday	Mandatory Holiday
-Optional Holiday	Optional Holiday - OH
+### Setup
 
-🔐 Authentication Flow
-1. User submits username/password to POST /api/login
-2. Server hashes & compares with bcrypt
-3. On success, returns JWT token (expires in 8 hours)
-4. Frontend stores token (likely in localStorage)
-5. All subsequent requests include: Authorization: Bearer <token>
-6. authenticateToken middleware verifies JWT_SECRET
+```bash
+# Install dependencies
+npm install
+
+# Create .env file
+cp .env.example .env
+```
+
+Fill in your `.env`:
+```
+DB_HOST=your_mysql_host
+DB_USER=your_mysql_user
+DB_PASSWORD=your_mysql_password
+DB_NAME=your_database_name
+JWT_SECRET=your_jwt_secret
+```
+
+```bash
+# Start backend
+node server.js
+
+# Start frontend
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+## 🔐 Authentication Flow
+
+1. User submits credentials to `POST /api/login`
+2. Server verifies password with **bcrypt**
+3. On success, returns a **JWT token** (8hr expiry)
+4. Frontend stores token and sends it as `Authorization: Bearer <token>` on all requests
+5. `authenticateToken` middleware protects all private routes
+
+---
+
+## 📦 Dependencies
+
+| Package | Purpose |
+|---------|---------|
+| `express` | Web framework |
+| `mysql2` | MySQL driver |
+| `bcrypt` | Password hashing |
+| `jsonwebtoken` | JWT auth |
+| `cors` | Cross-origin requests |
+| `dotenv` | Environment variables |
+| `nodemon` | Dev auto-reload |
+
+---
+
+## 📄 License
+
+MIT License © 2026
